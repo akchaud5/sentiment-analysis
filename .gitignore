@@ -37,9 +37,23 @@ data/processed/twitter_sentiment.csv
 # Large model files
 models/random_forest_model.pkl
 models/ensemble_model.pkl
+models/advanced_vectorizer.pkl
 
-# Model outputs
+# Generated prediction files
+data/raw/*_predictions.csv
+data/raw/*_predictions_advanced.csv
+data/raw/*_confidence_plot.png
+
+# Raw data archives and extracted contents (large)
+data/raw/imdb/aclImdb/
+data/raw/twitter/
+data/raw/sst/trees/
+
+# Model outputs and visualizations
 *.log
+models/confusion_matrix.png
+models/feature_distributions.png
+models/roc_curve.png
 
 # OS specific
 .DS_Store
