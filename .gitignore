@@ -32,6 +32,11 @@ ENV/
 data/raw/imdb/aclImdb_v1.tar.gz
 data/raw/twitter/training.1600000.processed.noemoticon.csv
 data/raw/sst/sst.zip
+data/processed/twitter_sentiment.csv
+
+# Large model files
+models/random_forest_model.pkl
+models/ensemble_model.pkl
 
 # Model outputs
 *.log

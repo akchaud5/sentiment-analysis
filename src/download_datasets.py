@@ -153,13 +153,15 @@ def process_sentiment140():
     result_df.to_csv(output_file, index=False)
     print(f"Processed Sentiment140 dataset saved to {output_file}")
 
-def process_combined_dataset(sample_size=100000):
+def process_combined_dataset(sample_size=100000, small_sample_size=5000):
     """Create a combined dataset from all sources"""
     print("\nCreating combined dataset...")
     
     output_file = "data/processed/combined_sentiment.csv"
-    if os.path.exists(output_file):
-        print(f"File {output_file} already exists. Skipping processing.")
+    small_output_file = "data/processed/combined_sentiment_small.csv"
+    
+    if os.path.exists(output_file) and os.path.exists(small_output_file):
+        print(f"Files {output_file} and {small_output_file} already exist. Skipping processing.")
         return
     
     datasets = []
@@ -182,16 +184,26 @@ def process_combined_dataset(sample_size=100000):
     if datasets:
         combined_df = pd.concat(datasets, ignore_index=True)
         
-        # Balance the dataset
+        # Balance the full dataset
         positive = combined_df[combined_df['sentiment'] == 'positive'].sample(n=min(sample_size//2, combined_df[combined_df['sentiment'] == 'positive'].shape[0]), random_state=42)
         negative = combined_df[combined_df['sentiment'] == 'negative'].sample(n=min(sample_size//2, combined_df[combined_df['sentiment'] == 'negative'].shape[0]), random_state=42)
         
         balanced_df = pd.concat([positive, negative], ignore_index=True)
         balanced_df = balanced_df.sample(frac=1, random_state=42).reset_index(drop=True)  # Shuffle
         
-        # Save combined dataset
+        # Save full combined dataset
         balanced_df.to_csv(output_file, index=False)
         print(f"Combined dataset created with {balanced_df.shape[0]} samples, saved to {output_file}")
+        
+        # Create smaller sample for GitHub (under 100MB)
+        small_positive = positive.sample(n=min(small_sample_size//2, positive.shape[0]), random_state=42)
+        small_negative = negative.sample(n=min(small_sample_size//2, negative.shape[0]), random_state=42)
+        small_balanced_df = pd.concat([small_positive, small_negative], ignore_index=True)
+        small_balanced_df = small_balanced_df.sample(frac=1, random_state=42).reset_index(drop=True)  # Shuffle
+        
+        # Save small combined dataset
+        small_balanced_df.to_csv(small_output_file, index=False)
+        print(f"Small combined dataset created with {small_balanced_df.shape[0]} samples, saved to {small_output_file}")
     else:
         print("No processed datasets found to combine.")
 
