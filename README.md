@@ -91,8 +91,8 @@ The repository includes smaller versions of datasets and models for quick testin
   - `data/processed/combined_sentiment_small.csv` - 5,000 samples (2,500 positive, 2,500 negative)
 
 - **Small model**:
-  - `models/small_model.pkl` - RandomForest with 50 trees and 5,000 features
-  - `models/small_vectorizer.pkl` - TF-IDF vectorizer with reduced features
+  - `models/small_model.pkl` - SVM model with calibrated probabilities (72.4% accuracy)
+  - `models/small_vectorizer.pkl` - TF-IDF vectorizer with 10,000 features and enhanced preprocessing
 
 These files allow you to test the code functionality without downloading the full datasets.
 
